@@ -15,6 +15,19 @@ export default function Home() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [followedCreators, setFollowedCreators] = useState({});
+  const [activePieSlice, setActivePieSlice] = useState(null);
+  const [pieTooltipPosition, setPieTooltipPosition] = useState({ x: 100, y: 12 });
+
+  const handlePiePointerMove = (event, slice) => {
+    const chart = event.currentTarget.closest("[data-pie-chart]");
+    const bounds = chart.getBoundingClientRect();
+
+    setActivePieSlice(slice);
+    setPieTooltipPosition({
+      x: Math.min(Math.max(event.clientX - bounds.left, 72), bounds.width - 72),
+      y: Math.min(Math.max(event.clientY - bounds.top - 42, 8), bounds.height - 48),
+    });
+  };
 
   const toggleFollow = (id) => {
     setFollowedCreators((prev) => ({
@@ -285,22 +298,48 @@ export default function Home() {
             Statistics
           </h2>
 
-          <div className="dashboard-card flex h-64 flex-col items-center justify-center p-4">
+          <div
+            className="dashboard-card relative flex h-64 flex-col items-center justify-center p-4"
+            data-pie-chart
+            onPointerLeave={() => setActivePieSlice(null)}
+          >
             <svg viewBox="0 0 200 150" className="h-44 w-44">
               <path
                 d="M 100 15 A 60 60 0 0 1 100 135 L 100 112 A 37 37 0 0 0 100 38 Z"
                 fill="#7047EB"
                 stroke="#FFFFFF"
-                strokeWidth="1.5"
+                strokeWidth={activePieSlice?.id === "sold" ? "2.5" : "1.5"}
+                className="cursor-pointer transition-[filter,stroke-width] duration-200 ease-out hover:brightness-125"
+                tabIndex={0}
+                role="img"
+                aria-label="Artwork sold, 50 percent"
+                onPointerMove={(event) => handlePiePointerMove(event, { id: "sold", label: "Artwork Sold", value: "50%" })}
+                onFocus={() => setActivePieSlice({ id: "sold", label: "Artwork Sold", value: "50%" })}
               />
 
               <path
                 d="M 100 135 A 60 60 0 0 1 100 15 L 100 38 A 37 37 0 0 0 100 112 Z"
                 fill="#1D1931"
                 stroke="#FFFFFF"
-                strokeWidth="1.5"
+                strokeWidth={activePieSlice?.id === "canceled" ? "2.5" : "1.5"}
+                className="cursor-pointer transition-[filter,stroke-width] duration-200 ease-out hover:brightness-125"
+                tabIndex={0}
+                role="img"
+                aria-label="Artwork canceled, 50 percent"
+                onPointerMove={(event) => handlePiePointerMove(event, { id: "canceled", label: "Artwork Canceled", value: "50%" })}
+                onFocus={() => setActivePieSlice({ id: "canceled", label: "Artwork Canceled", value: "50%" })}
               />
             </svg>
+
+            {activePieSlice && (
+              <div
+                className="pointer-events-none absolute z-10 whitespace-nowrap rounded-md bg-dark-500 px-3 py-2 text-[11px] font-medium text-white shadow-lg ring-1 ring-white/10 transition-[left,top,opacity] duration-100 ease-out"
+                style={{ left: pieTooltipPosition.x, top: pieTooltipPosition.y, transform: "translateX(-50%)" }}
+                role="status"
+              >
+                {activePieSlice.label}<span className="ml-2 font-semibold">{activePieSlice.value}</span>
+              </div>
+            )}
 
             <div className="mt-3 flex items-center justify-center gap-6 text-xs font-medium text-gray-300">
               <div className="flex items-center gap-2">
@@ -310,7 +349,7 @@ export default function Home() {
 
               <div className="flex items-center gap-2">
                 <span className="h-3 w-3 rounded-full border border-white/90 inline-block shrink-0" />
-                <span>Artwork CanCel</span>
+                <span>Artwork Canceled</span>
               </div>
             </div>
           </div>

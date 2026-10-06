@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { User, Check } from "lucide-react";
+import { User, Check, CreditCard, KeyRound } from "lucide-react";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("Profile");
@@ -50,6 +50,64 @@ export default function Settings() {
         ))}
       </div>
 
+      {activeTab === "Payment Method" ? (
+        <section className="max-w-2xl">
+          <h2 className="mb-3 text-sm font-semibold text-white">
+            Payment Method
+          </h2>
+
+          <div className="dashboard-card flex items-start gap-3 p-5">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+              <CreditCard size={18} />
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold text-white">
+                No payment provider connected
+              </p>
+              <p className="mt-1 text-xs text-gray-400">
+                There are no saved payment methods to display. Connect a payment provider to securely add and manage payment methods.
+              </p>
+              <span className="mt-3 inline-flex rounded-md border border-white/10 px-2 py-1 text-[10px] text-gray-400">
+                Not configured
+              </span>
+            </div>
+          </div>
+        </section>
+      ) : activeTab === "API" ? (
+        <section className="max-w-2xl">
+          <h2 className="mb-3 text-sm font-semibold text-white">
+            API Access
+          </h2>
+
+          <div className="dashboard-card flex items-start gap-3 p-5">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+              <KeyRound size={18} />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-white">
+                No API connection configured
+              </p>
+              <p className="mt-1 text-xs text-gray-400">
+                API settings require a backend endpoint and server-side credentials. None are configured for this dashboard.
+              </p>
+
+              <dl className="mt-4 grid gap-3 border-t border-white/10 pt-3 text-xs sm:grid-cols-2">
+                <div>
+                  <dt className="text-gray-500">API endpoint</dt>
+                  <dd className="mt-1 text-gray-300">Not configured</dd>
+                </div>
+                <div>
+                  <dt className="text-gray-500">Credentials</dt>
+                  <dd className="mt-1 text-gray-300">Not configured</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </section>
+      ) : activeTab === "Profile" ? (
+        <>
       <div className="grid gap-5 lg:grid-cols-2">
 
         {/* User profile */}
@@ -167,6 +225,18 @@ export default function Settings() {
 
         </div>
       </section>
+
+        </>
+      ) : (
+        <section className="max-w-2xl">
+          <h2 className="mb-3 text-sm font-semibold text-white">
+            {activeTab}
+          </h2>
+          <div className="dashboard-card p-5 text-xs text-gray-400">
+            This settings section is not configured yet.
+          </div>
+        </section>
+      )}
 
     </div>
   );

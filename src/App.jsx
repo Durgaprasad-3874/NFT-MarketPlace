@@ -4,7 +4,7 @@ import {
     Route,
 } from "react-router-dom";
 
-import Layout from "./components/Layout";
+import DashboardLayout from "./components/DashboardLayout";
 
 import Home from "./pages/Home";
 import Bids from "./pages/Bids";
@@ -15,7 +15,7 @@ import Settings from "./pages/Settings";
 
 export default function App () {
     return (
-        <Layout>
+        <DashboardLayout>
             <Routes>
             <Route path="/" element={<Home />}/>
 
@@ -39,6 +39,6 @@ export default function App () {
             />
 
             </Routes>
-        </Layout>
+        </DashboardLayout>
     );
 }

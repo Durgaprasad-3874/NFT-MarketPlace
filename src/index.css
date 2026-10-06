@@ -45,7 +45,7 @@ input {
 
 @layer components {
   .dashboard-card {
-    @apply rounded-xl bg-dark-100 transition-all duration-300;
+    @apply rounded-xl bg-dark-100;
   }
 
   .primary-button {
@@ -66,6 +66,21 @@ input {
 
   .input {
     @apply w-full rounded-md border border-transparent bg-dark-300 px-3 py-2.5 text-xs text-white outline-none transition focus:border-primary;
+  }
+}
+
+.dashboard-card {
+  transition: background-color 180ms ease-out, border-color 180ms ease-out;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dashboard-card {
+    transition: transform 180ms ease-out, box-shadow 180ms ease-out, background-color 180ms ease-out;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
   }
 }
 

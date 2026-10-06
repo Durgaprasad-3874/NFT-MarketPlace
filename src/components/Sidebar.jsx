@@ -8,6 +8,7 @@ import {
   Settings,
   LogOut,
   Hexagon,
+  Search,
   X,
 } from "lucide-react";
 
@@ -71,7 +72,10 @@ export default function Sidebar({
       >
         <div className="flex h-16 w-full items-center justify-center">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <Hexagon size={18} className="fill-white text-primary" />
+            <span className="relative flex h-6 w-6 items-center justify-center text-[#24183f]" aria-hidden="true">
+              <Hexagon size={22} strokeWidth={2.8} />
+              <Search size={13} strokeWidth={3} className="absolute" />
+            </span>
           </div>
 
           <button
